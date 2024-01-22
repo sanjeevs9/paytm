@@ -1,19 +1,19 @@
-const express=require('express');
-const app=express();
-const cors=require('cors');
-const user=require('./zod');
+
+
+
+import { userSignin,userSignup } from './zod';
 const {User}=require('../db')
 const jwt=require('jsonwebtoken');
 const JWT_SECRET=require('../config')
 
-app.use(express.json());
-app.use(cors());
+
+
 
 
 //sigup
-app.post('/signup', async function(req,res){
+router.post('/signup', async function(req,res){
 const payload=req.body;
-const response=user.safeParse(payload);
+const response=userSignup.safeParse(payload);
 
 if(!response.success || User.find(payload.username)){
     res.sendStatus(411).send({
@@ -40,7 +40,16 @@ res.sendStatus(200).send({
 })
 
 //signin
-app.post('/sigin', async function(req,res){
+router.post('/sigin', async function(req,res){
+    const payload=req.body;
+    const progress=userSignin.safeParse(payload);
+
+    if(!progress.success){
+        res.sendStatus(411).send({
+            message: "Error while logging in"
+        })
+        return
+    }
 
 const response=await User.findOne({
     username:req.body.username,
