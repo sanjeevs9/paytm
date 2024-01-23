@@ -1,9 +1,11 @@
 const express = require("express");
 const User=require('./user');
+const Account=require('./account')
 
-const router=express.router();
+const router=express.Router();
 
-router.use('/api/v1/user',User);
+router.use('/user',User);
+router.use('/account',Account);
 
 
 

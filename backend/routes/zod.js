@@ -13,7 +13,7 @@ const userSignin=zod.object({
 
 })
 
-module.exports({
+module.exports={
     userSignup,
     userSignin
-})
+}
