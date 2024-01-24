@@ -1,9 +1,11 @@
+import { Signup } from "./components/Signup"
+
 
 function App() {
 
   return (
     <div>
-        Hello world
+        <Signup/>
     </div>
   )
 }
