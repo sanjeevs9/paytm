@@ -129,31 +129,66 @@ router.put('/', authMiddleware, async (req, res) => {
 router.get('/bulk',async (req,res)=>{
     //-> "" if user dont return an filter make it 0-Space
     const filter=req.query.filter || "";
+    console.log(filter);
 // Regular expression to match names starting with "John" case-insensitively
 //$or-The $or operator is a logical query operator in MongoDB
 
     const users=await User.find({
         $or:[{
             firstName: {
-                $regex : filter
+                $regex : filter,
+                $options: 'i'
             }
             },{
                 lastName: {
-                    $regex: filter
+                    $regex: filter,
+                    $options: 'i'
                 }
             }]
         })
     
         res.json({
-            user: users.map( user=>({
-                username:user.username,
-                firstName:user.firstName,
-                lastName: user.lastName,
-                _id: user._id
+            user: users.map( x=>({
+                username:x.username,
+                firstName:x.firstName,
+                lastName: x.lastName,
+                _id: x._id
                 
             }))
         })
 
+})
+
+router.get('/me',authMiddleware ,async (req,res)=>{
+const userId=req.userId;
+
+
+const user =await User.findOne({
+    _id:userId
+})
+if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+}
+res.json({
+    user
+})
+
+})
+
+//get all users
+router.get('/users' ,async(req,res)=>{
+    const users=await User.find({})
+   
+    res.json({
+      
+        user: users.map( user=>({
+            username:user.username,
+            firstName:user.firstName,
+            lastName: user.lastName,
+            _id: user._id
+            
+        }))
+    })
 })
 
 module.exports = router;

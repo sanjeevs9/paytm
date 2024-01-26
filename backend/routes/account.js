@@ -57,7 +57,7 @@ router.post('/transfer',authMiddleware, async (req, res) => {
     )
     await Account.updateOne(
         { userId: receiverId },
-        { $inc: { balance: amount } }
+        { $inc: { balance: +amount } }
     )
 
     res.json({
