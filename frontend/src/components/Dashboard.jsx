@@ -4,12 +4,26 @@ import { useEffect,useState } from "react";
 import { SendAtom } from "./atoms/send";
 import { useRecoilState } from "recoil";
 
+function useDebounce(search){
+const[debouncedsearch,setDeboncedsearch]=useState(search);
+
+useEffect(()=>{
+   const timer= setTimeout(()=>{
+        setDeboncedsearch(search);
+    },500)
+
+    return ()=>{clearTimeout(timer)}
+},[search])
+return debouncedsearch;
+}
+
 export default function Dashboard() {
     const[Balance,setBalance]=useState(0);
     const[user,setUser]=useState({});
     const[users,setUsers]=useState([]);
     const[search,setSearch]=useState([]);
   //  const[sender,setSender]=useRecoilState(SendAtom);
+  const debouncedsearch=useDebounce(search);
 
     const token =localStorage.getItem("token");
     const navigate=useNavigate();
@@ -18,14 +32,14 @@ export default function Dashboard() {
     useEffect(()=>{
     axios.get('http://localhost:3000/api/v1/user/bulk',{
        params:{
-            filter:search
+            filter:debouncedsearch
         }
        })
        .then(async function(response){    
               setUsers(response.data.user);
                 console.log("filtered data", response.data.user);
             })
-        },[search])
+        },[debouncedsearch])
 
 
   //getting all users      
@@ -41,7 +55,7 @@ export default function Dashboard() {
             
             })
 
-    },[search])
+    },[debouncedsearch])
 
 
     //getting balance
