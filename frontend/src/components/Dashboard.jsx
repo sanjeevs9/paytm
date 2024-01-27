@@ -9,7 +9,7 @@ export default function Dashboard() {
     const[user,setUser]=useState({});
     const[users,setUsers]=useState([]);
     const[search,setSearch]=useState([]);
-    const[sender,setSender]=useRecoilState(SendAtom);
+  //  const[sender,setSender]=useRecoilState(SendAtom);
 
     const token =localStorage.getItem("token");
     const navigate=useNavigate();
@@ -80,24 +80,24 @@ export default function Dashboard() {
    
     
     const handleClick=(x)=>{
-        navigate("/pay");
-        setSender(x)
-        console.log(x);
+        navigate("/pay?id=" + x._id + "&name=" + x.firstName);
+       // setSender(x)
+       
     }
 
   return (
     <div className="bg-white  text-black  flex flex-col p-3">
         <div className="flex justify-between w-full">
-            <div className="font-bold text-2xl   ">
-                Payments App
+            <div className="font-bold text-2xl font-mono  ">
+                Payment App
             </div>
             <div>
                 <div className=" flex flex-cols gap-2">
                     <div className="font-semibold pt-1.5">
-                       Hello,  {user.firstName}
+                       Hello,  {user && user.firstName && user.firstName.toUpperCase()}
                     </div>
                     
-                    <div className="rounded-full bg-gray-400  w-10 h-10 pt-2 pl-3.5 text-black">{user.firstName && user.firstName[0].toUpperCase()}</div>
+                    <div className="rounded-full bg-[#c3cfdb]  w-10 h-10 pt-2 pl-3.5 text-black">{user.firstName && user.firstName[0].toUpperCase()}</div>
                     
                 </div>
             </div>
@@ -121,7 +121,7 @@ export default function Dashboard() {
             return(
                 <div className="flex flex-row justify-between pb-2">
                 <div className="flex flex-row pt-2 gap-1">
-                    <div className="rounded-full h-10 w-10 bg-gray-500 pl-2.5 pt-1.5 text-lg">
+                    <div className="rounded-full h-10 w-10 bg-[#c3cfdb] pl-3.5 pt-1.5 text-lg">
                         {x.firstName[0].toUpperCase()}
                     </div>
                     <div className="pl-3 font-semibold pt-1.5 text-lg">
@@ -130,7 +130,7 @@ export default function Dashboard() {
                 </div>
                 <div className="pt-3">
                     <button className="bg-[#21c55d] p-2 rounded text-white" onClick={()=>{
-                        handleClick(x._id)
+                        handleClick(x)
                     }}>Send Money</button>
                 </div>
             </div>

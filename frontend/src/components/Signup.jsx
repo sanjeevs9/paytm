@@ -10,8 +10,8 @@ export default function Signup(){
     const[password,setPassword]=useState("");
     const navigate=useNavigate();
 
-    function handle(event){
-      axios.post('http://localhost:3000/api/v1/user/signup',{
+    async function handle(event){
+      await axios.post('http://localhost:3000/api/v1/user/signup',{
         username:email,
         password:password,
         firstName:firstName,

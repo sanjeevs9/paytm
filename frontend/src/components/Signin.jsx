@@ -8,8 +8,8 @@ export  default function Signin(){
     const[password,setPassword]=useState("");
     const navigate=useNavigate();
 
-    function handle(){
-      axios.post('http://localhost:3000/api/v1/user/signin',{
+    async function handle(){
+      await axios.post('http://localhost:3000/api/v1/user/signin',{
         username:email,
         password:password
       },{

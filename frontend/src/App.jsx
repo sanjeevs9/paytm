@@ -13,17 +13,17 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={
-                  <div className="bg-black flex items-center justify-center min-h-screen">
+                  <div className="bg-[#c3cfdb] flex items-center justify-center min-h-screen">
                     <Signup/>
                   </div>
                 }/>
                 <Route path="/signin" element={
-                  <div className="bg-black flex items-center justify-center min-h-screen">
+                  <div className="bg-[#c3cfdb] flex items-center justify-center min-h-screen">
                     <Signin/>
                   </div>
                 }/>
                  <Route path="/pay" element={
-                  <div className="bg-black flex items-center justify-center min-h-screen">
+                  <div className="bg-[#c3cfdb] flex items-center justify-center min-h-screen">
                     <Send/>
                   </div>
                  }/>

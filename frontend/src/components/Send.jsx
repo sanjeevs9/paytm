@@ -1,10 +1,13 @@
-import {useRecoilValue} from 'recoil'
-import { SendAtom } from './atoms/send'
+
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useSearchParams } from 'react-router-dom'
 
-export default function Send(){
-    const send=useRecoilValue(SendAtom)
+export default function Send(){  
+    const[searchParams]=useSearchParams();           
+    const id=searchParams.get("id");
+    const name=searchParams.get("name");
+  
     const[value,setValue]=useState(0);
 
     const token=localStorage.getItem("token")
@@ -12,9 +15,11 @@ export default function Send(){
    
 
 
-    function handle(){
+     function handle(){
+        console.log("fkfklef",id)
         axios.post('http://localhost:3000/api/v1/account/transfer',{
-        to:send,
+            
+        to:id,
         amount:value
    
        },{
@@ -38,8 +43,8 @@ export default function Send(){
             <div className="text-black pb-10 text-3xl font-bold ">Send Money</div>
             </div>
             <div className="flex flex-row gap-3">
-                <div className="rounded-full bg-[#21c55d]  w-10 h-10 pt-2 pl-3.5">A</div>
-            <div className="font-semibold text-lg pt-1">Friend's Name</div>
+                <div className="rounded-full bg-[#21c55d]  w-10 h-10 pt-2 pl-3.5">{name[0].toUpperCase()}</div>
+            <div className="font-semibold text-lg pt-1">{name}</div>
             </div>
             <div className="font-medium text-sm justify-start pb-1">Amount (in Rs)</div>
             <div className="pb-3">
