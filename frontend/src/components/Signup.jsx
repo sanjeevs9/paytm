@@ -19,7 +19,7 @@ export default function Signup(){
       })
       .then(response=>{
         localStorage.setItem("token",response.data.token);
-        console.log(response.data.token);
+     
         alert("Account created")
         navigate('/signin')
       })

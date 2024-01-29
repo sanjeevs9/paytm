@@ -24,6 +24,7 @@ res.json({
 
 //session
 router.post('/transfer',authMiddleware, async (req, res) => {
+   
     const receiver = req.body.to;
     const amount = req.body.amount;
 
@@ -31,6 +32,7 @@ router.post('/transfer',authMiddleware, async (req, res) => {
         userId: receiver
     })
     if (!account) {
+     console.log("invalid account")
         res.json({
             message: "Invalid account"
         })
@@ -42,6 +44,7 @@ router.post('/transfer',authMiddleware, async (req, res) => {
     })
 
     if (sender.balance < amount) {
+    
         res.json({
             message: "Insufficient balance"
         })
@@ -49,19 +52,24 @@ router.post('/transfer',authMiddleware, async (req, res) => {
     }
 
     const senderId = sender.userId;
-    const receiverId = account.usserId;
+    const receiverId = account.userId;
+
+    // localStorage.setItem('senderId', senderId);
+    
+
 
     await Account.updateOne(
         { userId: senderId },
         { $inc: { balance: -amount } }
     )
+    
     await Account.updateOne(
         { userId: receiverId },
         { $inc: { balance: +amount } }
     )
-
+   
     res.json({
-        message: "Transfer successful"
+        message: "transfer successful"
     })
 
 })

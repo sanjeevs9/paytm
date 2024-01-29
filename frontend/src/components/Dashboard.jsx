@@ -1,8 +1,8 @@
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import { useEffect,useState } from "react";
-import { SendAtom } from "./atoms/send";
-import { useRecoilState } from "recoil";
+import  Dropdown  from "./Dropdown";
+import image from "./images/UPI_Integration_ea734f3523.png";
 
 function useDebounce(search){
 const[debouncedsearch,setDeboncedsearch]=useState(search);
@@ -22,7 +22,7 @@ export default function Dashboard() {
     const[user,setUser]=useState({});
     const[users,setUsers]=useState([]);
     const[search,setSearch]=useState([]);
-  //  const[sender,setSender]=useRecoilState(SendAtom);
+    const[drop,setDrop]=useState(false);
   const debouncedsearch=useDebounce(search);
 
     const token =localStorage.getItem("token");
@@ -37,7 +37,7 @@ export default function Dashboard() {
        })
        .then(async function(response){    
               setUsers(response.data.user);
-                console.log("filtered data", response.data.user);
+               
             })
         },[debouncedsearch])
 
@@ -47,7 +47,7 @@ export default function Dashboard() {
         axios.get('http://localhost:3000/api/v1/user/users')
             .then(async function(response){
                 setUsers(response.data.user);
-                console.log(response.data.user);
+               
             })
             .catch(error=>{
                 console.log(error);
@@ -65,7 +65,7 @@ export default function Dashboard() {
         }
     })
     .then(async function(response){
-      console.log(response.data.balance)
+     
       setBalance(response.data.balance);
     })
     .catch(error=>{
@@ -82,7 +82,7 @@ export default function Dashboard() {
             }
         })
         .then( function(response){
-            console.log(response.data)
+           
             setUser(response.data.user);
            
         })
@@ -94,24 +94,49 @@ export default function Dashboard() {
    
     
     const handleClick=(x)=>{
-        navigate("/pay?id=" + x._id + "&name=" + x.firstName);
+        sessionStorage.setItem("id",x._id);
+        sessionStorage.setItem("name",x.firstName);
+        navigate("/pay");
        // setSender(x)
        
     }
 
   return (
-    <div className="bg-white  text-black  flex flex-col p-3">
+    
+    <div className="bg-white  text-black  flex flex-col p-3 "   style={{ 
+        backgroundImage: `url(${image})`,
+       
+    
+      }}
+    >
+        <div 
+    className="absolute inset-0" 
+    style={{ 
+      backgroundImage: `url(${image})`,
+      filter: 'blur(20px)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      zIndex: -1
+    }}
+  />
         <div className="flex justify-between w-full">
             <div className="font-bold text-2xl font-mono  ">
                 Payment App
             </div>
             <div>
-                <div className=" flex flex-cols gap-2">
+                <div className=" flex flex-cols gap-2 bg=white">
                     <div className="font-semibold pt-1.5">
                        Hello,  {user && user.firstName && user.firstName.toUpperCase()}
                     </div>
                     
-                    <div className="rounded-full bg-[#c3cfdb]  w-10 h-10 pt-2 pl-3.5 text-black">{user.firstName && user.firstName[0].toUpperCase()}</div>
+                    <div className="rounded-full bg-[#c3cfdb]  w-10 h-10 pt-2 pl-3.5 text-black cursor-pointer" onClick={()=>{
+                        setDrop(!drop);
+                    }}>{user.firstName && user.firstName[0].toUpperCase()}</div>
+                    {drop && (
+            <div className="absolute mt-10">
+            <Dropdown />
+                 </div>
+                    )}
                     
                 </div>
             </div>
@@ -151,45 +176,6 @@ export default function Dashboard() {
             )
         
         })}
-            {/* <div className="flex flex-row justify-between pb-2 ">
-                <div className="flex flex-row pt-2">
-                    <div className="rounded-full h-10 w-10 bg-gray-500 pl-2.5 pt-1.5 text-lg">
-                        U1
-                    </div>
-                    <div className="pl-3 font-semibold pt-1.5 text-lg">
-                        user 1
-                    </div>
-                </div>
-                <div className="pt-3">
-                    <button className="bg-[#21c55d] p-2 rounded text-white" onClick={handleClick} >Send Money</button>
-                </div>
-            </div>
-            <div className="flex flex-row justify-between pb-2">
-                <div className="flex flex-row pt-2">
-                    <div className="rounded-full h-10 w-10 bg-gray-500 pl-2.5 pt-1.5 text-lg">
-                        U1
-                    </div>
-                    <div className="pl-3 font-semibold pt-1.5 text-lg">
-                        user 1
-                    </div>
-                </div>
-                <div className="pt-3">
-                    <button className="bg-[#21c55d] p-2 rounded text-white" onClick={handleClick}>Send Money</button>
-                </div>
-            </div>
-            <div className="flex flex-row justify-between pb-2 ">
-                <div className="flex flex-row pt-2">
-                    <div className="rounded-full h-10 w-10 bg-gray-500 pl-2.5 pt-1.5 text-lg">
-                        U1
-                    </div>
-                    <div className="pl-3 font-semibold pt-1.5 text-lg">
-                        user 1
-                    </div>
-                </div>
-                <div className="pt-3">
-                    <button className="bg-[#21c55d] p-2 rounded text-white" onClick={handleClick}>Send Money</button>
-                </div>
-            </div> */}
           
             
         </div>
@@ -197,5 +183,7 @@ export default function Dashboard() {
         
         
     </div>
+    
+   
   )
 }

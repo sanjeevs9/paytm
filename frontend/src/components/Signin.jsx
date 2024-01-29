@@ -12,14 +12,11 @@ export  default function Signin(){
       await axios.post('http://localhost:3000/api/v1/user/signin',{
         username:email,
         password:password
-      },{
-        headers:{
-          Authorization: `Bearer ${token}`
-        }
       })
       .then(response=>{
+        localStorage.setItem("token",response.data.token);
         alert("signed In")
-        console.log("done");
+       
         console.log(response.data);
         navigate('/dashboard');
       })

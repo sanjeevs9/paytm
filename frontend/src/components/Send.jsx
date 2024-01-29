@@ -4,9 +4,8 @@ import axios from 'axios'
 import { useSearchParams } from 'react-router-dom'
 
 export default function Send(){  
-    const[searchParams]=useSearchParams();           
-    const id=searchParams.get("id");
-    const name=searchParams.get("name");
+  const id=sessionStorage.getItem("id");
+  const name=sessionStorage.getItem("name");
   
     const[value,setValue]=useState(0);
 
@@ -16,7 +15,7 @@ export default function Send(){
 
 
      function handle(){
-        console.log("fkfklef",id)
+       
         axios.post('http://localhost:3000/api/v1/account/transfer',{
             
         to:id,
@@ -27,8 +26,10 @@ export default function Send(){
             Authorization: `Bearer ${token}`
           }
        })
-       .then(async function(response){
-           alert("transaction done")
+       .then( function(response){
+           const data= response.data;
+          
+           alert(data.message);
        })
        .catch(error=>{
         console.log(error)

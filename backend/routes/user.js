@@ -59,7 +59,7 @@ res.status(200).json({
 })
 
 //signin
-router.post('/signin', authMiddleware, async function(req,res){
+router.post('/signin', async function(req,res){
     const payload=req.body;
     const progress=userSignin.safeParse(payload);
 
@@ -129,7 +129,7 @@ router.put('/', authMiddleware, async (req, res) => {
 router.get('/bulk',async (req,res)=>{
     //-> "" if user dont return an filter make it 0-Space
     const filter=req.query.filter || "";
-    console.log(filter);
+   
 // Regular expression to match names starting with "John" case-insensitively
 //$or-The $or operator is a logical query operator in MongoDB
 
