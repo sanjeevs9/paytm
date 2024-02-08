@@ -44,9 +44,17 @@ export default function Dashboard() {
 
   //getting all users      
     useEffect(()=>{
-        axios.get('http://localhost:3000/api/v1/user/users')
+        axios.get('http://localhost:3000/api/v1/user/users',{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
             .then(async function(response){
-                setUsers(response.data.user);
+                if (response.status === 403) {
+                    console.log('Forbidden');
+                } else {
+                    setUsers(response.data.user);
+                }
                
             })
             .catch(error=>{

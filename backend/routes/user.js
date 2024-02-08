@@ -9,9 +9,11 @@ const zod =require('zod');
 
 
 
+  
 //sigup
 router.post('/signup', async function(req,res){
 const payload=req.body;
+console.log(payload);
 const response=userSignup.safeParse(payload);
 
 if (!response.success) {
@@ -126,7 +128,7 @@ router.put('/', authMiddleware, async (req, res) => {
 
 
 //get
-router.get('/bulk',async (req,res)=>{
+router.get('/bulk',authMiddleware,async (req,res)=>{
     //-> "" if user dont return an filter make it 0-Space
     const filter=req.query.filter || "";
    
@@ -176,7 +178,7 @@ res.json({
 })
 
 //get all users
-router.get('/users' ,async(req,res)=>{
+router.get('/users' ,authMiddleware,async(req,res)=>{
     const users=await User.find({})
    
     res.json({
@@ -188,6 +190,11 @@ router.get('/users' ,async(req,res)=>{
             _id: user._id
             
         }))
+    })
+})
+router.get('/check',(req,res)=>{
+    res.json({
+        message:"working"
     })
 })
 
