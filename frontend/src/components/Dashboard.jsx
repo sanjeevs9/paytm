@@ -30,7 +30,7 @@ export default function Dashboard() {
 
 //filtering users    
     useEffect(()=>{
-    axios.get('http://localhost:3000/api/v1/user/bulk',{
+    axios.get('https://paytm-backend-dusky.vercel.app/api/v1/user/bulk',{
        params:{
             filter:debouncedsearch
         }
@@ -44,7 +44,7 @@ export default function Dashboard() {
 
   //getting all users      
     useEffect(()=>{
-        axios.get('http://localhost:3000/api/v1/user/users',{
+        axios.get('https://paytm-backend-dusky.vercel.app/api/v1/user/users',{
             headers:{
                 Authorization:`Bearer ${token}`
             }
@@ -67,7 +67,7 @@ export default function Dashboard() {
 
 
     //getting balance
-    useEffect(()=>{axios.get('http://localhost:3000/api/v1/account/balance',{
+    useEffect(()=>{axios.get('https://paytm-backend-dusky.vercel.app/api/v1/account/balance',{
         headers:{
             Authorization: `Bearer ${token}`
         }
@@ -84,7 +84,7 @@ export default function Dashboard() {
 
    //getting user details 
     useEffect(()=>{
-        axios.get('http://localhost:3000/api/v1/user/me',{
+        axios.get('https://paytm-backend-dusky.vercel.app/api/v1/user/me',{
             headers:{
                 Authorization: `Bearer ${token}`
             }
